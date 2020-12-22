@@ -17,6 +17,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.restassured.RestAssured;
+
 public class TestBase 
 {
 	
@@ -40,7 +42,7 @@ public class TestBase
 	
 	public static void init()
 	{
-		String browser = prop.getProperty("browser");
+		/*String browser = prop.getProperty("browser");
 		
 		if(browser.equals("CC"))
 		{
@@ -56,7 +58,10 @@ public class TestBase
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(TestUtil.IMPLICITLY, TimeUnit.SECONDS);
 		
-		driver.get(prop.getProperty("url"));
+		driver.get(prop.getProperty("url"));*/
+		
+		//FOR API 
+		RestAssured.baseURI = "https://api.ratesapi.io/api";
 	}
 	
 	public void waitForPresent(WebElement element)

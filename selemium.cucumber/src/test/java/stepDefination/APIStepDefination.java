@@ -1,5 +1,7 @@
 package stepDefination;
 
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONCompare;
@@ -11,16 +13,25 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import util.CSVReader;
 import util.TestBase;
+import util.TestListener;
 
-/*import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;*/
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*; 
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+@Listeners(TestListener.class)
 public class APIStepDefination extends TestBase
 {
 	CSVReader csvReader = new CSVReader();
-	@Test
+	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	String currentDate = df.format(new Date());
+	String nextDate = df.format(new Date());
+	//@Test
 	public void getTheAPIResponce() throws IOException, JSONException
 	{
 		
@@ -49,6 +60,93 @@ public class APIStepDefination extends TestBase
 		
 		JSONCompareResult result = JSONCompare.compareJSON(body, body1, JSONCompareMode.STRICT);
 		System.out.println("Result ********** " + result.toString());
+	}
+	
+	@BeforeMethod
+	public void setUp()
+	{
+		init();
+	}
+	
+	@Test
+	public void TC01()
+	{
+		given().
+		when().
+			get("/latest").
+		then().
+		 assertThat().
+		 statusCode(200);
+			
+	}
+	
+	@Test
+	public void TC02()
+	{
+		String resp = given().
+		when().
+			get("/latest").
+		thenReturn().
+		body().
+		asString();
+		System.out.println(resp);
+	}
+	
+	@Test
+	public void TC03()
+	{
+		
+		given().
+		when().
+			get("/latest").
+		then().
+		body("date", equalToIgnoringCase(currentDate));
+			
+	}
+	
+	@Test
+	public void TC04()
+	{
+		
+		given().
+		when().
+			get("/"+currentDate).
+		then().
+		assertThat().
+			statusCode(200);
+			
+	}
+	
+	@Test
+	public void TC05()
+	{
+		
+		given().
+		when().
+			get("/"+currentDate).
+		then().
+		assertThat().
+			statusCode(200).
+			body("date", equalToIgnoringCase(currentDate));
+			
+	}
+	
+	@Test
+	public void TC06() throws ParseException
+	{
+		Calendar c = Calendar.getInstance();
+		c.setTime(df.parse(nextDate));
+		c.add(Calendar.DATE, 5);
+		nextDate = df.format(c.getTime());
+		System.out.println("Next Date - " + nextDate);
+		given().
+		when().
+			get("/"+nextDate).
+		then().
+		assertThat().
+			statusCode(200).
+			body("date", equalToIgnoringCase(currentDate));
+			
 	}
 	
 	

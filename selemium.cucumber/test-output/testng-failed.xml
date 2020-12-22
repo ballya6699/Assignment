@@ -5,7 +5,8 @@
     <classes>
       <class name="stepDefination.APIStepDefination">
         <methods>
-          <include name="getTheAPIResponce"/>
+          <include name="setUp"/>
+          <include name="TC03"/>
         </methods>
       </class> <!-- stepDefination.APIStepDefination -->
     </classes>

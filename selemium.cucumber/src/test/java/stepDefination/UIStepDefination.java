@@ -98,7 +98,7 @@ public class UIStepDefination extends TestBase
 	@Then("Check Sample Store pop-up opens")
 	public void check_Sample_Store_pop_up_opens() throws InterruptedException 
 	{
-		Thread.sleep(5000);
+		//Thread.sleep(5000);
 		waitForPresent(hp1.popUpFrame);
 		driver.switchTo().frame(hp1.popUpFrame);
 		waitForPresent(hp1.textSampleStore);

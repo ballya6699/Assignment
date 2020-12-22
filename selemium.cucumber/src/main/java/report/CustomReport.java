@@ -30,7 +30,7 @@ public class CustomReport
 			switch (scenario.getStatus()) 
 			{
 			case PASSED:
-				extent.createTest(testName).pass("PASSED");
+				extent.createTest(testName).pass("PASSED").addScreenCaptureFromPath(screenShot);
 				
 				break;
 			case FAILED:
@@ -39,7 +39,7 @@ public class CustomReport
 				break;
 
 			default:
-				extent.createTest(testName).skip("SKIPPED");
+				extent.createTest(testName).skip("SKIPPED").addScreenCaptureFromPath(screenShot);
 				break;
 			}
 			scenario.getStatus();
